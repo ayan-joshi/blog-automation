@@ -1,0 +1,5 @@
+automate/.env
+automate/__pycache__/
+automate/logs/
+*.pyc
+.DS_Store
