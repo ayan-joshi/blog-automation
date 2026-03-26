@@ -57,3 +57,11 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check queue level and alert if low
+        run: |
+          PENDING=$(python -c "import json; q=json.load(open('queue.json')); print(len(q['pending']))")
+          echo "Pending posts remaining: $PENDING"
+          if [ "$PENDING" -le 10 ]; then
+            echo "::error::QUEUE LOW — Only $PENDING posts remaining. Add new topics to content-calendar.md and keyword-mapping.md, then run python main.py --init-queue"
+            exit 1
+          fi
