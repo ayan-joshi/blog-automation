@@ -1,9 +1,7 @@
- ---
-  name: Daily Blog Generation
+name: Daily Blog Generation
 
   on:
     schedule:
-      # 9:00 AM IST = 3:30 AM UTC
       - cron: "30 3 * * *"
     workflow_dispatch:
       inputs:
@@ -51,11 +49,9 @@
             else
               FLAGS=""
             fi
-
             if [ "${{ github.event.inputs.dry_run }}" == "true" ]; then
               FLAGS="$FLAGS --dry-run"
             fi
-
             python main.py $FLAGS
 
         - name: Commit updated queue and generated posts
@@ -68,5 +64,3 @@
             git push
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  ---
