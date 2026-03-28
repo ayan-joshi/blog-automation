@@ -1,8 +1,5 @@
 {
   "pending": [
-    8,
-    9,
-    10,
     11,
     12,
     16,
@@ -66,6 +63,18 @@
     {
       "post_num": 4,
       "shopify_id": 742312607859
+    },
+    {
+      "post_num": 8,
+      "shopify_id": 742332825715
+    },
+    {
+      "post_num": 9,
+      "shopify_id": 742332858483
+    },
+    {
+      "post_num": 10,
+      "shopify_id": 742332891251
     }
   ],
   "failed": [
