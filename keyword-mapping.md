@@ -586,6 +586,309 @@
 
 ---
 
+## PILLAR 1 Extended — Teether Education (Posts 63–68)
+
+### Post #63 — When Do Babies Start Drooling? Understanding Pre-Teething in India
+**Primary KW:** baby drooling teething India
+**Slug:** `baby-drooling-teething-signs-india`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | infant teether · newborn teething toys · teethers |
+| 🟡 Yellow | newborn teethers · silicone teether · teething toys |
+| ⬜ Supporting | infant teething relief · baby teether india · when do babies start teething · teething drool rash |
+
+**Placement notes:**
+- Intro: answer the drool timeline directly in first paragraph — name IAP recommendation
+- H2: "When Is the Right Time to Introduce a Teether?" → hits green keywords
+- FAQ: "what infant teether is safe for pre-teething drooling stage?"
+
+---
+
+### Post #64 — Amber Teething Necklaces: What Indian Pediatricians Actually Say
+**Primary KW:** amber teething necklace safe India
+**Slug:** `amber-teething-necklace-safe-india`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | infant teether · newborn teether · teethers |
+| 🟡 Yellow | newborn teethers · silicone teether · infant teething relief |
+| ⬜ Supporting | bis certified teether · silicone teether safe for baby · baby teether india · teething toys |
+
+**Placement notes:**
+- Lead with the IAP/AAP verdict: amber necklaces are NOT recommended — choking + strangulation risk
+- H2: "What to Use Instead" — hit green with safe silicone teether recommendation
+- FAQ: "is there a BIS certified teether alternative to amber necklaces?"
+
+---
+
+### Post #65 — How to Clean and Sterilise a Silicone Teether at Home India
+**Primary KW:** how to clean silicone teether India
+**Slug:** `how-to-clean-sterilise-silicone-teether-india`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | silicone teether · infant teether · teethers |
+| 🟡 Yellow | bis certified teether · silicone teether safe for baby · newborn teethers |
+| ⬜ Supporting | infant teething relief · baby teether india · teething toys · food-grade silicone |
+
+**Placement notes:**
+- Structured as numbered steps — each step hits a keyword naturally
+- H2: "Why Cleaning Method Matters for BIS Certified Teethers" → hits yellow
+- FAQ: "how often should I sterilise my infant teether?"
+
+---
+
+### Post #66 — Teether vs Fingers: Why Silicone Teethers Are the Safer Choice
+**Primary KW:** teether vs fingers baby India
+**Slug:** `teether-vs-fingers-baby-india`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | infant teether · newborn teether · silicone teether |
+| 🟡 Yellow | bis certified teether · teethers · newborn teethers |
+| ⬜ Supporting | silicone teether safe for baby · infant teething relief · baby teether india · teething toys |
+
+**Placement notes:**
+- Comparison table: Teether vs Fingers — 3 cols (Factor, Silicone Teether, Fingers)
+- H2: "Why Pediatricians Recommend a BIS Certified Infant Teether Over Fingers"
+- FAQ: "is a silicone teether really safer than letting my baby chew fingers?"
+
+---
+
+### Post #67 — What Is BIS IS 9873? A Plain-English Guide for Indian Parents
+**Primary KW:** BIS IS 9873 baby products India
+**Slug:** `bis-is-9873-baby-products-india-guide`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | bis certified teether · infant teether · teethers |
+| 🟡 Yellow | silicone teether · newborn teether · newborn teethers |
+| ⬜ Supporting | silicone teether safe for baby · infant teething relief · baby teether india · food-grade silicone |
+
+**Placement notes:**
+- Explain BIS IS 9873 in plain terms — what it tests, why it matters for babies
+- Include cert number CML-7600198513 (Nubokind's) as an example of verified compliance
+- FAQ: "how do I verify a bis certified teether is genuine?"
+
+---
+
+### Post #68 — Teething Gels in India: Are They Safe? What Parents Should Know
+**Primary KW:** teething gel safe India baby
+**Slug:** `teething-gel-safe-india-baby`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | infant teether · newborn teething toys · infant teething relief |
+| 🟡 Yellow | silicone teether · teethers · teething toys |
+| ⬜ Supporting | bis certified teether · baby teether india · newborn teethers · teething drool |
+
+**Placement notes:**
+- Lead with IAP's position on benzocaine/lidocaine gels — not recommended for infants
+- H2: "Safer Alternatives to Teething Gels" — introduce silicone teether as drug-free option
+- FAQ: "what is the safest infant teething relief method approved by Indian pediatricians?"
+
+---
+
+## PILLAR 8 — Baby Science & General Parenting (Posts 69–80)
+
+### Post #69 — Screen Time for Babies Under 2: WHO Guidelines Every Indian Parent Needs to Know
+**Primary KW:** screen time babies under 2 India
+**Slug:** `screen-time-babies-under-2-india-who-guidelines`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · toys for newborn to 6 months · infant learning toys |
+| 🟡 Yellow | infant cloth books · sensory toys for newborns · high contrast books |
+| ⬜ Supporting | newborn high contrast images · tummy time · tummy time book · montessori educational toys |
+
+**Placement notes:**
+- WHO recommendation: zero screen time under 18–24 months — cite directly
+- Bridge to high contrast cloth books as the screen-free alternative
+- FAQ: "what can I give my baby instead of screen time for visual stimulation?"
+
+---
+
+### Post #70 — Newborn Sleep Schedule India: A Realistic First 3 Months Guide
+**Primary KW:** newborn sleep schedule India
+**Slug:** `newborn-sleep-schedule-india-first-3-months`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · toys for newborn to 6 months |
+| 🟡 Yellow | tummy time · infant cloth books · sensory toys for newborns |
+| ⬜ Supporting | tummy time book · awake windows baby · infant learning toys |
+
+**Placement notes:**
+- Awake window section bridges to: "during awake windows, high contrast cloth books are ideal"
+- FAQ: "how many hours does a newborn sleep in India's heat?"
+
+---
+
+### Post #71 — Baby Overstimulation: 7 Signs You Are Doing Too Much
+**Primary KW:** signs of overstimulation in babies
+**Slug:** `signs-of-overstimulation-in-babies-india`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · sensory toys for newborns · toys for newborn to 6 months |
+| 🟡 Yellow | infant cloth books · tummy time · infant learning toys |
+| ⬜ Supporting | newborn high contrast images · tummy time toys · high contrast books |
+
+**Placement notes:**
+- Position high contrast cloth books as the right-level stimulation tool (not overstimulating)
+- FAQ: "can too many newborn toys cause overstimulation?"
+
+---
+
+### Post #72 — IAP Vaccine Schedule 2026: Complete Guide for Indian Parents
+**Primary KW:** IAP vaccine schedule India 2026
+**Slug:** `iap-vaccine-schedule-india-2026`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · infant learning toys |
+| 🟡 Yellow | sensory toys for newborns · tummy time |
+| ⬜ Supporting | infant cloth books · newborn high contrast images |
+
+**Placement notes:**
+- Pure informational post — link to sensory development posts as "what to focus on at each age stage"
+- FAQ: "which vaccines does IAP recommend in the first 6 months?"
+
+---
+
+### Post #73 — Why Is My Baby Crying? The 5 Types of Cries and What They Mean
+**Primary KW:** why is baby crying India
+**Slug:** `why-is-baby-crying-5-types-india`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · toys for newborn to 6 months · infant learning toys |
+| 🟡 Yellow | sensory toys for newborns · tummy time · infant cloth books |
+| ⬜ Supporting | tummy time book · newborn high contrast images · infant teething relief |
+
+**Placement notes:**
+- Teething cry section: bridge to infant teether as relief tool
+- Boredom/stimulation cry section: bridge to cloth books + sensory toys
+- FAQ: "how do I tell if my baby is crying from teething or hunger?"
+
+---
+
+### Post #74 — Safe Sleeping Positions for Newborns India: SIDS Prevention Guide
+**Primary KW:** safe sleeping position newborn India
+**Slug:** `safe-sleeping-position-newborn-india-sids`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · toys for newborn to 6 months |
+| 🟡 Yellow | tummy time · sensory toys for newborns |
+| ⬜ Supporting | tummy time book · infant cloth books · tummy time toys |
+
+**Placement notes:**
+- Tummy time section: "supervised tummy time during wake windows — prop a high contrast cloth book upright"
+- FAQ: "is tummy time safe for Indian newborns in summer heat?"
+
+---
+
+### Post #75 — Baby Brain Development 0–12 Months: Month-by-Month Science Guide
+**Primary KW:** baby brain development 0-12 months India
+**Slug:** `baby-brain-development-0-12-months-india`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · toys for newborn to 6 months · infant learning toys |
+| 🟡 Yellow | infant cloth books · tummy time · sensory toys for newborns · montessori educational toys |
+| ⬜ Supporting | newborn high contrast images · high contrast books · tummy time book · infant teether toys |
+
+**Placement notes:**
+- Month 0–3 section: high contrast visual stimulation → cloth books
+- Month 3–6 section: teething + grasping → silicone teethers
+- FAQ: "what newborn toys actually support brain development in the first 6 months?"
+
+---
+
+### Post #76 — Monsoon Baby Care India: Heat Rash, Fungal Infections, and Safety Tips
+**Primary KW:** monsoon baby care India
+**Slug:** `monsoon-baby-care-india-heat-rash-tips`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · infant teether |
+| 🟡 Yellow | silicone teether · infant cloth books |
+| ⬜ Supporting | bis certified teether · infant teething relief · sensory toys for newborns |
+
+**Placement notes:**
+- Teether section: silicone's non-porous surface is easier to clean in monsoon humidity
+- FAQ: "how do I keep baby teethers hygienic during monsoon season India?"
+
+---
+
+### Post #77 — Formula vs Breastfeeding India: Evidence-Based Guide for New Mothers
+**Primary KW:** formula vs breastfeeding India
+**Slug:** `formula-vs-breastfeeding-india-evidence-guide`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · toys for newborn to 6 months |
+| 🟡 Yellow | infant cloth books · tummy time · sensory toys for newborns |
+| ⬜ Supporting | newborn high contrast images · infant learning toys |
+
+**Placement notes:**
+- Bridge to sensory development: "regardless of feeding choice, high contrast visual stimulation from birth matters"
+- FAQ: "does feeding method affect newborn sensory development?"
+
+---
+
+### Post #78 — Baby Weight Chart India: WHO Normal Ranges and When to See a Doctor
+**Primary KW:** baby weight chart India normal
+**Slug:** `baby-weight-chart-india-who-normal-ranges`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · toys for newborn to 6 months |
+| 🟡 Yellow | sensory toys for newborns · tummy time |
+| ⬜ Supporting | infant cloth books · infant learning toys |
+
+**Placement notes:**
+- Include WHO growth chart table (weight ranges by month) — 3 cols max: Age, Boys range, Girls range
+- Bridge: "tummy time also builds muscle strength that supports healthy weight gain"
+- FAQ: "what is the normal weight for a 3 month old baby in India?"
+
+---
+
+### Post #79 — New Parent Anxiety India: Why It Happens and 5 Ways to Cope
+**Primary KW:** new parent anxiety India
+**Slug:** `new-parent-anxiety-india-coping-guide`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · infant learning toys |
+| 🟡 Yellow | sensory toys for newborns · infant cloth books · tummy time |
+| ⬜ Supporting | toys for newborn to 6 months · newborn high contrast images |
+
+**Placement notes:**
+- Frame engaging with baby through sensory tools (cloth books, tummy time) as anxiety relief
+- FAQ: "is it normal for Indian new parents to feel overwhelmed in the first 3 months?"
+
+---
+
+### Post #80 — Cord Blood Banking India: Is It Worth It? Honest Expert Analysis
+**Primary KW:** cord blood banking India worth it
+**Slug:** `cord-blood-banking-india-worth-it`
+
+| Priority | Keywords to Use |
+|----------|----------------|
+| 🟢 Green | newborn toys · infant learning toys |
+| 🟡 Yellow | sensory toys for newborns · infant cloth books |
+| ⬜ Supporting | tummy time · newborn high contrast images |
+
+**Placement notes:**
+- Authoritative analysis post — cite ICMR position + cost data (range, not specific ₹ for blog products)
+- Bridge: "while cord blood banking is a one-time decision, sensory development starts from day one"
+- FAQ: "does ICMR recommend cord blood banking in India?"
+
+---
+
 ## Summary — Keywords by Week
 
 | Week | Top Green KWs | Top Yellow KWs |

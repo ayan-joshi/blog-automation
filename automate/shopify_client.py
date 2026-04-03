@@ -36,7 +36,7 @@ def _request(method, path, payload=None):
 
 def get_published_posts(limit=250):
     """Fetch all published articles. Returns list of (handle, title) tuples."""
-    data = _request("GET", f"/blogs/{BLOG_ID}/articles.json?limit={limit}&published_status=published")
+    data = _request("GET", f"/blogs/{BLOG_ID}/articles.json?limit={limit}&published_status=any")
     return [(a["handle"], a["title"]) for a in data.get("articles", [])]
 
 

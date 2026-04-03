@@ -6,6 +6,7 @@ Manages queue.json (pending / published / failed)
 
 import json
 import os
+import random
 import re
 from pathlib import Path
 
@@ -142,16 +143,33 @@ def save_queue(queue):
 
 
 def get_next_posts(n=3):
-    """Return next n PostSpec dicts from the pending queue."""
+    """Return next n PostSpec dicts, selecting randomly across pillars for variety."""
     queue = load_queue()
     calendar = _parse_calendar()
     kw_map = _parse_keywords()
 
-    batch = queue["pending"][:n]
-    specs = []
-    for num in batch:
+    # Group pending post numbers by pillar (preserve order within each pillar)
+    by_pillar: dict[str, list[int]] = {}
+    for num in queue["pending"]:
         if num not in calendar:
             continue
+        pillar = calendar[num]["pillar"]
+        by_pillar.setdefault(pillar, []).append(num)
+
+    # Pick n posts by cycling through randomly chosen pillars
+    selected: list[int] = []
+    available_pillars = list(by_pillar.keys())
+
+    while len(selected) < n and available_pillars:
+        pillar = random.choice(available_pillars)
+        candidates = by_pillar[pillar]
+        selected.append(candidates.pop(0))  # take earliest post from this pillar
+        if not candidates:
+            available_pillars.remove(pillar)
+
+    # Build full spec dicts
+    specs = []
+    for num in selected:
         spec = dict(calendar[num])
         kw = kw_map.get(num, {})
         spec["green_keywords"] = kw.get("green", [])

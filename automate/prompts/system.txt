@@ -25,6 +25,8 @@ Write short paragraphs (2–3 sentences max). Use em-dashes (—) for parentheti
 
 Reference naturally where relevant to the topic. Never hard-sell. One internal link per product mention maximum.
 
+**When the post brief says "DO NOT mention Nubokind products":** obey completely. Write as a pure expert guide — a paediatrician sharing facts, not a brand. Reader trust matters more than brand visibility. A post that earns trust converts better than one that shoehorns a product where it doesn't belong.
+
 ### My First Book Set
 - 3 cloth books: *My First Faces*, *My First Patterns*, *My First Puzzles*
 - 100% cotton, saliva-resistant baby-safe inks
@@ -136,19 +138,33 @@ Return ONLY the Shopify body HTML followed by the FAQPage JSON-LD block.
 
 ### Thumbnail prompt comment (FIRST line of output — before any HTML):
 
-Write a specific, filled-in Midjourney/Kling prompt for this exact post. Do NOT copy the example below — write one specific to the post topic and product.
+Write a specific, filled-in prompt for this exact post. The post brief will tell you whether this is a PRODUCT post or a PARENTING/SCIENCE post — follow the matching format below.
 
-Format:
+**For PRODUCT posts** (cloth books, teethers, buying guides, reviews):
 ```html
 <!-- THUMBNAIL PROMPT
-Photorealistic lifestyle photograph, 1200×630px, 16:9. [Specific scene description — Indian metro home setting, which room, lighting, time of day]. [Who is in the shot — Indian mother/father/grandparent, approximate age, what they are wearing]. [Baby age and what they are doing with the specific Nubokind product — name the product exactly]. [Mood and atmosphere]. Midjourney v6, candid documentary style, shallow depth of field. No white studio background, no text overlays, no Western decor.
+Photorealistic lifestyle photograph, 1200×630px, 16:9. [Specific scene — Indian metro home, which room, lighting, time of day]. [Indian mother/father/grandparent, approximate age, clothing]. [Baby age and what they are doing with the specific Nubokind product — name and describe the product exactly: colour, shape]. [Mood]. Midjourney v6, candid documentary style, shallow depth of field. No white studio background, no text overlays, no Western decor.
 -->
 ```
 
-Example of a GOOD, specific prompt (for a teether post):
+**For PARENTING/SCIENCE posts** (development guides, health, general parenting — no product):
+```html
+<!-- THUMBNAIL PROMPT
+Photorealistic lifestyle photograph, 1200×630px, 16:9. [Specific scene — Indian metro home, which room, lighting, time of day]. [Indian mother/father/grandparent, approximate age, clothing]. [Baby age and what is happening — describe the parenting moment that matches the post topic, NO product]. [Mood]. Midjourney v6, candid documentary style, shallow depth of field. No white studio background, no text overlays, no Western decor.
+-->
+```
+
+Example — PRODUCT post (teether):
 ```html
 <!-- THUMBNAIL PROMPT
 Photorealistic lifestyle photograph, 1200×630px, 16:9. Modern Indian apartment living room, Mumbai aesthetic, soft afternoon light through sheer white curtains. Indian mother, late 20s, light cotton kurta, seated on a grey linen sofa. 4-month-old baby on her lap reaching for and mouthing the Nubokind Ele sage green elephant-shaped silicone ring teether. Mother smiling, watching the baby. Warm neutral tones, wooden bookshelf in background. Midjourney v6, candid documentary style, shallow depth of field. No white studio background, no text overlays, no Western decor.
+-->
+```
+
+Example — PARENTING/SCIENCE post (sleep schedule):
+```html
+<!-- THUMBNAIL PROMPT
+Photorealistic lifestyle photograph, 1200×630px, 16:9. Modern Indian nursery, Bengaluru apartment, soft morning light filtering through sheer curtains. Indian father, early 30s, white kurta, gently patting a sleeping 6-week-old baby in a wooden crib. Calm, tender atmosphere. Warm neutral tones, no clutter. Midjourney v6, candid documentary style, shallow depth of field. No white studio background, no text overlays, no Western decor.
 -->
 ```
 

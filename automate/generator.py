@@ -16,12 +16,70 @@ SYSTEM_PROMPT = (Path(__file__).parent / "prompts" / "system.txt").read_text(enc
 ROOT = Path(__file__).parent.parent
 
 
+def _product_mode(spec):
+    """
+    Determine how prominently Nubokind products should appear in this post.
+
+    Returns:
+      "featured"  — product is central (BOFU reviews, buying guides, comparisons,
+                    teether/cloth-book TOFU posts where the product is the answer)
+      "bridge"    — product can appear if there's a genuine natural connection
+                    (stage dev guides, Indian parenting posts, vision AEO posts)
+      "none"      — pure expert/science content; no product mention at all
+                    (medical/science posts with no direct product tie-in)
+    """
+    post_num = spec.get("post_num", 0)
+    title_lower = spec["title"].lower()
+    intent = spec.get("intent", "TOFU")
+    pillar = spec.get("pillar", "")
+
+    # BOFU and MOFU buying-decision posts always feature the product
+    if intent in ("BOFU", "MOFU"):
+        return "featured"
+
+    # Posts directly about teethers or cloth books always feature the product
+    product_words = [
+        "teether", "teething", "cloth book", "sensory book", "high contrast",
+        "flashcard", "tummy time", "drool", "amber", "gel", "bis", "silicone",
+    ]
+    if any(w in title_lower for w in product_words):
+        return "featured"
+
+    # Baby science / general parenting posts (69-80) — check for any genuine bridge
+    if post_num in range(69, 81):
+        bridge_words = [
+            "overstimulation", "screen time", "brain development", "sensory",
+            "sleep", "crying", "development", "milestone",
+        ]
+        if any(w in title_lower for w in bridge_words):
+            return "bridge"
+        # Purely medical/factual posts — vaccines, cord blood, weight chart, anxiety, formula
+        return "none"
+
+    # Indian parenting posts — some are about teething (featured), rest are bridge
+    if post_num in range(29, 37):
+        teething_posts = {29, 30, 31, 33, 35}
+        return "featured" if post_num in teething_posts else "bridge"
+
+    # Stage dev guides — always have some product bridge
+    if post_num in range(37, 47):
+        return "bridge"
+
+    # AEO quick answer posts — teether posts are featured, vision/reflex are bridge
+    if post_num in range(47, 57):
+        vision_posts = {53, 54, 55}
+        return "bridge" if post_num in vision_posts else "featured"
+
+    # Default: bridge (safe fallback — allows optional mention)
+    return "bridge"
+
+
 def _build_user_prompt(spec, research_brief, published_posts):
     """Build the user prompt from post spec + research + live posts list."""
 
     published_list = "\n".join(
         f"- /blogs/early-learning-sensory-development/{h} | {t}"
-        for h, t in published_posts[:30]
+        for h, t in published_posts[:10]
     ) or "No published posts yet — omit the Related reads section."
 
     green = ", ".join(spec.get("green_keywords", [])) or "none specified"
@@ -30,10 +88,18 @@ def _build_user_prompt(spec, research_brief, published_posts):
 
     intent = spec['intent']
     title_lower = spec['title'].lower()
+    product_mode = _product_mode(spec)
 
     # Build a concrete section outline based on intent + topic
     if intent == "TOFU":
-        intent_desc = """TOFU — Educational/Awareness.
+        if product_mode == "none":
+            product_section_note = "<h2 id=\"[slug]\">[Section 5 — practical summary / what to do next]</h2>"
+        elif product_mode == "bridge":
+            product_section_note = "<h2 id=\"[slug]\">[Section 5 — practical tools for Indian parents — include Nubokind product ONLY if there is a direct, natural connection to this specific topic]</h2>"
+        else:
+            product_section_note = "<h2 id=\"[slug]\">[Section 5 — Nubokind product recommendation, naturally integrated]</h2>"
+
+        intent_desc = f"""TOFU — Educational/Awareness.
 
 REQUIRED SECTION OUTLINE (follow exactly, in this order):
 <p>[Intro para 1 — answer the core question directly, first 100 words must include green keyword]</p>
@@ -44,7 +110,7 @@ REQUIRED SECTION OUTLINE (follow exactly, in this order):
 <h2 id="[slug]">[Section 2 — why it matters / science]</h2>
 <h2 id="[slug]">[Section 3 — comparison table or how-to]</h2>
 <h2 id="[slug]">[Section 4 — practical tips for Indian parents]</h2>
-<h2 id="[slug]">[Section 5 — Nubokind product naturally mentioned]</h2>
+{product_section_note}
 <h2 id="faq">Frequently Asked Questions</h2>
 [4-5 h3+p FAQ pairs]
 <p><strong>Related reads:</strong></p>"""
@@ -130,16 +196,32 @@ REQUIRED STRUCTURE:
     )
 
     # Determine which Nubokind product is most relevant to feature
-    pillar = spec.get('pillar', '').lower()
-    title_lower = spec['title'].lower()
     if any(w in title_lower for w in ['cloth book', 'sensory book', 'visual', 'high contrast', 'black and white', 'flashcard']):
         featured_product = "My First Book Set — 3 cloth books (My First Faces, My First Patterns, My First Puzzles), 100% cotton, saliva-resistant inks, stands upright, safe from birth, 0-6 months. Link: /products/high-contrast-cloth-book-set"
-    elif any(w in title_lower for w in ['teether', 'teething', 'chew', 'mouthing', 'silicone toy']):
+    elif any(w in title_lower for w in ['teether', 'teething', 'chew', 'mouthing', 'silicone toy', 'drool', 'amber', 'gel']):
         featured_product = "Ele Ring Teether (pack of 2, sage green + slate grey elephants, BIS IS 9873 cert CML-7600198513, food-grade silicone, 3-12 months, /products/ele-ring-teether-set-green-and-blue) and Kiko Bear Teether (cream bear, BIS certified, no-drop wrist strap, 3-12 months, /products/kiko-bear-teether)"
     elif any(w in title_lower for w in ['gift', 'essentials', 'kit', 'newborn toy', 'baby toy']):
         featured_product = "Newborn Essentials Kit (high-contrast flashcards + My First Book Set + fold-out zoo book, 0-6 months, /products/high-contrast-newborn-essential-kit) and Ele Ring Teether (/products/ele-ring-teether-set-green-and-blue)"
     else:
-        featured_product = "Mention the most relevant product from the Nubokind catalog in the system prompt based on the topic."
+        featured_product = "My First Book Set (/products/high-contrast-cloth-book-set) or Ele Ring Teether (/products/ele-ring-teether-set-green-and-blue) — use whichever has a genuine connection to the topic, or omit if neither fits."
+
+    # Build the product context block based on mode
+    if product_mode == "none":
+        product_block = """## Product Mentions
+DO NOT mention Nubokind products in this post. This is a pure expert guide — product mentions here would feel out of place and damage reader trust. Write as a knowledgeable Indian pediatrician sharing facts."""
+    elif product_mode == "bridge":
+        product_block = f"""## Optional Product Bridge
+Only mention a Nubokind product if there is a direct, natural connection to this specific topic. If you can work it in without it feeling like a sales pitch, include it briefly in one sentence with one link. If there is no genuine bridge, omit entirely.
+Product available: {featured_product}"""
+    else:
+        product_block = f"""## Featured Nubokind Product for this Post
+{featured_product}"""
+
+    thumbnail_instruction = (
+        "PRODUCT post — use the PRODUCT thumbnail format (show the Nubokind product being used by the baby)."
+        if product_mode == "featured"
+        else "PARENTING/SCIENCE post — use the PARENTING/SCIENCE thumbnail format (lifestyle moment, NO product visible)."
+    )
 
     return f"""Write a full Shopify blog post for the following spec. Follow ALL rules from the system prompt.
 
@@ -149,9 +231,9 @@ REQUIRED STRUCTURE:
 - **Intent:** {intent_desc}
 - **{aeo_note}**
 - **Pillar:** {spec.get('pillar', '')}
+- **Thumbnail:** {thumbnail_instruction}
 
-## Featured Nubokind Product for this Post
-{featured_product}
+{product_block}
 
 ## Keywords to Use
 - 🟢 GREEN (intro first 100 words + at least one H2 + at least one FAQ answer): {green}
@@ -220,10 +302,11 @@ def _extract_faqs(html):
 def generate_blog(spec, research_brief, published_posts):
     """
     Generate full blog HTML using Groq.
-    Returns dict: {html, meta_description, faqs, slug}
+    Returns dict: {html, meta_description, faqs, slug, product_mode, output_dir}
     """
     client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
+    product_mode = _product_mode(spec)
     user_prompt = _build_user_prompt(spec, research_brief, published_posts)
 
     response = client.chat.completions.create(
@@ -271,7 +354,7 @@ def generate_blog(spec, research_brief, published_posts):
     slug = spec.get("slug") or _title_to_slug(spec["title"])
 
     # Save locally (with schema preserved in local file)
-    _save_local(spec, html, meta_description, slug, schema_html)
+    output_dir = _save_local(spec, html, meta_description, slug, schema_html)
 
     return {
         "html": html,
@@ -280,6 +363,8 @@ def generate_blog(spec, research_brief, published_posts):
         "slug": slug,
         "title": spec["title"],
         "post_num": spec["post_num"],
+        "product_mode": product_mode,
+        "output_dir": output_dir,
     }
 
 
@@ -290,6 +375,12 @@ def _title_to_slug(title):
     slug = _re.sub(r'\s+', '-', slug.strip())
     slug = _re.sub(r'-+', '-', slug)
     return slug[:80]
+
+
+def _extract_thumbnail_text(html):
+    """Pull just the text content out of the <!-- THUMBNAIL PROMPT ... --> comment."""
+    match = re.search(r'<!--\s*THUMBNAIL PROMPT\s*(.*?)-->', html, re.DOTALL | re.IGNORECASE)
+    return match.group(1).strip() if match else "No thumbnail prompt generated."
 
 
 def _save_local(spec, html, meta_description, slug, schema_html=""):
@@ -322,6 +413,7 @@ def _save_local(spec, html, meta_description, slug, schema_html=""):
     filepath = week_dir / filename
 
     schema_section = f"\n\n<!-- FAQPage JSON-LD Schema (add to Shopify theme head or via script tag app) -->\n{schema_html}" if schema_html else ""
+    thumbnail_text = _extract_thumbnail_text(html)
 
     full_html = f"""<!--
   SHOPIFY BLOG POST — AUTO GENERATED
@@ -330,7 +422,9 @@ def _save_local(spec, html, meta_description, slug, schema_html=""):
   URL Handle: {slug}
   Blog: Early Learning & Sensory Development
   Post Number: #{post_num}
-  Thumbnail Prompt: Modern Indian metro home, warm natural light. Indian parent with baby (0-4 months) interacting with relevant Nubokind product. Candid lifestyle photography, 16:9.
+
+  THUMBNAIL IMAGE PROMPT (fal.ai / Midjourney / Kling):
+  {thumbnail_text}
 -->{schema_section}
 
 <!-- SHOPIFY BODY HTML (paste below into article body) -->
@@ -338,3 +432,4 @@ def _save_local(spec, html, meta_description, slug, schema_html=""):
 
     filepath.write_text(full_html, encoding="utf-8")
     print(f"  Saved locally: {filepath.relative_to(ROOT)}")
+    return week_dir

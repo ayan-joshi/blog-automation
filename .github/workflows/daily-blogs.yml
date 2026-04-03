@@ -36,6 +36,7 @@ jobs:
           SHOPIFY_STORE_URL: ${{ secrets.SHOPIFY_STORE_URL }}
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_BLOG_ID: ${{ secrets.SHOPIFY_BLOG_ID }}
+          FAL_KEY: ${{ secrets.FAL_KEY }}
           POSTS_PER_DAY: ${{ vars.POSTS_PER_DAY || '3' }}
         run: |
           if [ "${{ github.event.inputs.post_num }}" != "" ]; then
@@ -57,3 +58,11 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check queue level and alert if low
+        run: |
+          PENDING=$(python -c "import json; q=json.load(open('queue.json')); print(len(q['pending']))")
+          echo "Pending posts remaining: $PENDING"
+          if [ "$PENDING" -le 10 ]; then
+            echo "::error::QUEUE LOW — Only $PENDING posts remaining. Add new topics to content-calendar.md and keyword-mapping.md, then run python main.py --init-queue"
+            exit 1
+          fi
