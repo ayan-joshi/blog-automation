@@ -62,12 +62,20 @@
     48,
     21,
     {
+      "post_num": 4,
+      "shopify_id": 742312607859
+    },
+    {
       "post_num": 8,
       "shopify_id": 742372999283
     },
     {
-      "post_num": 38,
-      "shopify_id": 742373195891
+      "post_num": 9,
+      "shopify_id": 742332858483
+    },
+    {
+      "post_num": 10,
+      "shopify_id": 742332891251
     },
     {
       "post_num": 29,
@@ -76,8 +84,21 @@
     {
       "post_num": 32,
       "shopify_id": 742373294195
+    },
+    {
+      "post_num": 38,
+      "shopify_id": 742373195891
     }
   ],
   "deferred": [69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80],
-  "failed": []
+  "failed": [
+    {
+      "post_num": 5,
+      "error": "Shopify API POST /articles.json failed: 422 {\"errors\":{\"handle\":[\"has already been taken\"]}}"
+    },
+    {
+      "post_num": 7,
+      "error": "Shopify API POST /articles.json failed: 422 {\"errors\":{\"handle\":[\"has already been taken\"]}}"
+    }
+  ]
 }
