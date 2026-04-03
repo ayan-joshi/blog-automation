@@ -36,7 +36,6 @@
 #           SHOPIFY_STORE_URL: ${{ secrets.SHOPIFY_STORE_URL }}
 #           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
 #           SHOPIFY_BLOG_ID: ${{ secrets.SHOPIFY_BLOG_ID }}
-#           FAL_KEY: ${{ secrets.FAL_KEY }}
 #           POSTS_PER_DAY: ${{ vars.POSTS_PER_DAY || '3' }}
 #         run: |
 #           if [ "${{ github.event.inputs.post_num }}" != "" ]; then

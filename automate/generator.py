@@ -423,7 +423,7 @@ def _save_local(spec, html, meta_description, slug, schema_html=""):
   Blog: Early Learning & Sensory Development
   Post Number: #{post_num}
 
-  THUMBNAIL IMAGE PROMPT (fal.ai / Midjourney / Kling):
+  THUMBNAIL IMAGE PROMPT (manual use if needed):
   {thumbnail_text}
 -->{schema_section}
 

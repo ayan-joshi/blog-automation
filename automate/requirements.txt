@@ -2,4 +2,3 @@ groq
 requests
 python-dotenv
 apscheduler
-fal-client

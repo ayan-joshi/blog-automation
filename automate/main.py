@@ -24,23 +24,7 @@ load_dotenv(Path(__file__).parent / ".env")
 POSTS_PER_DAY = int(os.environ.get("POSTS_PER_DAY", "3"))
 
 
-def _generate_image(result, spec, skip_images):
-    """Call image_generator after blog generation. Silent no-op if skipped."""
-    if skip_images:
-        return
-    try:
-        from image_generator import generate_thumbnail
-        generate_thumbnail(
-            spec=spec,
-            html=result["html"],
-            product_mode=result.get("product_mode", "bridge"),
-            output_dir=result["output_dir"],
-        )
-    except Exception as e:
-        print(f"  [image] Skipped: {e}")
-
-
-def run_batch(dry_run=False, skip_images=False):
+def run_batch(dry_run=False):
     """Generate and publish the next N posts from the queue."""
     from queue_manager import get_next_posts, mark_published, mark_failed, status
     from research import research_topic
@@ -57,8 +41,6 @@ def run_batch(dry_run=False, skip_images=False):
     print(f"Nubokind Blog Automation — Batch of {len(specs)} posts")
     if dry_run:
         print("MODE: DRY RUN (no Shopify publish)")
-    if skip_images:
-        print("IMAGES: skipped (--no-images)")
     print(f"{'='*60}\n")
 
     # Fetch live published posts once (for related links)
@@ -86,10 +68,7 @@ def run_batch(dry_run=False, skip_images=False):
             result = generate_blog(spec, research_brief, published_posts)
             print(f"  Product mode: {result.get('product_mode', 'unknown')}")
 
-            # Step 3: Generate thumbnail image
-            _generate_image(result, spec, skip_images)
-
-            # Step 4: Publish (skip in dry-run)
+            # Step 3: Publish (skip in dry-run)
             if dry_run:
                 print(f"  [DRY RUN] Skipping Shopify publish")
                 print(f"  HTML length: {len(result['html'])} chars")
@@ -116,7 +95,7 @@ def run_batch(dry_run=False, skip_images=False):
     print(f"{'='*60}\n")
 
 
-def run_single(post_num, dry_run=False, skip_images=False):
+def run_single(post_num, dry_run=False):
     """Generate and publish a single specific post by number."""
     from queue_manager import get_post_spec, mark_published, mark_failed
     from research import research_topic
@@ -127,8 +106,6 @@ def run_single(post_num, dry_run=False, skip_images=False):
     print(f"Nubokind Blog Automation — Single Post #{post_num}")
     if dry_run:
         print("MODE: DRY RUN (no Shopify publish)")
-    if skip_images:
-        print("IMAGES: skipped (--no-images)")
     print(f"{'='*60}\n")
 
     spec = get_post_spec(post_num)
@@ -152,8 +129,6 @@ def run_single(post_num, dry_run=False, skip_images=False):
         print("Generating blog HTML...")
         result = generate_blog(spec, research_brief, published_posts)
         print(f"Product mode: {result.get('product_mode', 'unknown')}")
-
-        _generate_image(result, spec, skip_images)
 
         if dry_run:
             print(f"\n[DRY RUN] Skipping Shopify publish")
@@ -247,12 +222,6 @@ def main():
         metavar="N",
         help="Regenerate post N and UPDATE the existing Shopify article (looks up ID from queue.json)",
     )
-    parser.add_argument(
-        "--no-images",
-        action="store_true",
-        help="Skip thumbnail image generation (useful for testing or if FAL_KEY not set)",
-    )
-
     args = parser.parse_args()
 
     if args.init_queue:
@@ -271,10 +240,10 @@ def main():
         _run_update(args.update_post)
 
     elif args.post:
-        run_single(args.post, dry_run=args.dry_run, skip_images=args.no_images)
+        run_single(args.post, dry_run=args.dry_run)
 
     else:
-        run_batch(dry_run=args.dry_run, skip_images=args.no_images)
+        run_batch(dry_run=args.dry_run)
 
 
 if __name__ == "__main__":
