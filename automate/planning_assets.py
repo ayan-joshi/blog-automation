@@ -129,6 +129,62 @@ def parse_publish_schedule():
     return schedule
 
 
+def _keyword_fallback(spec):
+    """
+    Assign keyword targets based on post title + pillar when no specific
+    keyword-mapping.md entry exists. Uses the same keyword clusters from
+    the Keyword Tracker spreadsheet.
+    """
+    title = spec.get("title", "").lower()
+    pillar = spec.get("pillar", "").lower()
+
+    teether_words = ["teether", "teething", "drool", "silicone toy", "amber", "gel", "chew", "mouthing", "gum"]
+    cloth_book_words = ["cloth book", "sensory book", "high contrast", "flashcard", "visual", "black and white", "my first book", "montessori"]
+    gift_words = ["gift", "gifting", "baby shower", "diwali", "raksha bandhan", "festival"]
+    dev_words = ["milestone", "development", "motor", "sensory", "reflex", "vision", "see color", "tummy time"]
+
+    is_teether = any(w in title for w in teether_words)
+    is_cloth   = any(w in title for w in cloth_book_words)
+    is_gift    = any(w in title for w in gift_words)
+    is_dev     = any(w in title for w in dev_words)
+
+    if is_teether:
+        return {
+            "green": ["infant teether", "newborn teether", "teethers", "newborn teething toys"],
+            "yellow": ["silicone teether", "newborn teethers", "teething toys"],
+            "supporting": ["BIS certified teether", "food grade silicone teether", "best teether for babies India"],
+            "notes": "Green in intro + at least one H2. Yellow in body paragraphs. BIS certification angle in supporting.",
+        }
+    if is_cloth:
+        return {
+            "green": ["infant cloth books", "newborn toys", "toys for newborn to 6 months"],
+            "yellow": ["tummy time", "montessori educational toys", "infant learning toys"],
+            "supporting": ["soft books for infants", "high contrast books", "tummy time book", "black and white books for newborns"],
+            "notes": "Green in intro + H2 heading. Yellow in section about tummy time and Montessori. Supporting sprinkled once each.",
+        }
+    if is_gift:
+        return {
+            "green": ["newborn toys", "newborn teething toys"],
+            "yellow": ["infant cloth books", "teething toys", "tummy time"],
+            "supporting": ["best toys newborn", "infant learning toys", "soft books for infants"],
+            "notes": "Green in intro gifting context. Yellow in product recommendation sections.",
+        }
+    if is_dev:
+        return {
+            "green": ["newborn toys", "toys for newborn to 6 months"],
+            "yellow": ["tummy time", "infant cloth books", "teething toys"],
+            "supporting": ["sensory toys for newborns", "tummy time toys", "infant learning toys"],
+            "notes": "Green in intro + at least one H2. Yellow in product bridge section if applicable.",
+        }
+    # Generic fallback — covers D2C, brand, and lifestyle posts
+    return {
+        "green": ["newborn toys", "newborn teething toys"],
+        "yellow": ["infant cloth books", "teething toys", "tummy time"],
+        "supporting": ["infant learning toys", "sensory toys for newborns"],
+        "notes": "Use green keywords in intro and at least one H2. Yellow in body naturally.",
+    }
+
+
 def get_post_spec(post_num):
     """Return a merged spec for a single post number."""
     calendar = parse_calendar()
@@ -137,10 +193,20 @@ def get_post_spec(post_num):
 
     spec = dict(calendar[post_num])
     kw = parse_keywords().get(post_num, {})
-    spec["green_keywords"] = kw.get("green", [])
-    spec["yellow_keywords"] = kw.get("yellow", [])
-    spec["supporting_keywords"] = kw.get("supporting", [])
-    spec["placement_notes"] = kw.get("notes", "")
+
+    # Use explicit mapping if it exists, otherwise derive from title/pillar
+    if kw.get("green") or kw.get("yellow"):
+        spec["green_keywords"] = kw.get("green", [])
+        spec["yellow_keywords"] = kw.get("yellow", [])
+        spec["supporting_keywords"] = kw.get("supporting", [])
+        spec["placement_notes"] = kw.get("notes", "")
+    else:
+        fallback = _keyword_fallback(spec)
+        spec["green_keywords"] = fallback["green"]
+        spec["yellow_keywords"] = fallback["yellow"]
+        spec["supporting_keywords"] = fallback["supporting"]
+        spec["placement_notes"] = fallback["notes"]
+
     if kw.get("slug"):
         spec["slug"] = kw["slug"]
     return spec

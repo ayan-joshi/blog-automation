@@ -321,9 +321,10 @@ def generate_blog(spec, research_brief, published_posts):
 
     html = response.content[0].text.strip()
 
-    # Strip any accidental markdown code fences
+    # Strip any accidental markdown code fences and stray HTML skeleton tags
     html = re.sub(r'^```html?\s*', '', html, flags=re.MULTILINE)
     html = re.sub(r'^```\s*$', '', html, flags=re.MULTILINE)
+    html = re.sub(r'</?(html|head|body)[^>]*>', '', html, flags=re.IGNORECASE)
     html = html.strip()
 
     # Extract thumbnail prompt comment (keep it — goes into Shopify body as HTML comment)
