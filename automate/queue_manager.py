@@ -5,124 +5,21 @@ Manages queue.json (pending / published / failed)
 """
 
 import json
-import os
 import random
-import re
 from pathlib import Path
 
-ROOT = Path(__file__).parent.parent
-CALENDAR_FILE = ROOT / "content-calendar.md"
-KEYWORDS_FILE = ROOT / "keyword-mapping.md"
+from planning_assets import get_post_spec as _shared_get_post_spec
+from planning_assets import parse_calendar, parse_keywords
+
 QUEUE_FILE = Path(__file__).parent / "queue.json"
 
 # Posts already written manually (weeks 1-4)
 ALREADY_WRITTEN = {1, 2, 3, 13, 14, 15, 21, 37, 41, 42, 47, 48}
 
 
-def _parse_calendar():
-    """Parse content-calendar.md → dict of post_num → {title, primary_kw, intent, aeo, pillar}"""
-    text = CALENDAR_FILE.read_text(encoding="utf-8")
-    posts = {}
-    current_pillar = "General"
-
-    for line in text.splitlines():
-        # Detect pillar heading
-        pillar_match = re.match(r"^##\s+PILLAR\s+\d+\s+[—–-]+\s+(.+)", line)
-        if pillar_match:
-            current_pillar = pillar_match.group(1).strip()
-            continue
-
-        # Match table rows: | # | Title | Primary KW | Intent | AEO | Priority |
-        row = re.match(
-            r"^\|\s*(\d+)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|\s*(TOFU|MOFU|BOFU)\s*\|\s*(✅|❌)\s*\|",
-            line,
-        )
-        if row:
-            num = int(row.group(1))
-            posts[num] = {
-                "post_num": num,
-                "title": row.group(2).strip(),
-                "primary_kw": row.group(3).strip(),
-                "intent": row.group(4).strip(),
-                "aeo": row.group(5).strip() == "✅",
-                "pillar": current_pillar,
-                "slug": _title_to_slug(row.group(2).strip()),
-            }
-
-    return posts
-
-
-def _parse_keywords():
-    """Parse keyword-mapping.md → dict of post_num → {green, yellow, supporting, slug, notes}"""
-    text = KEYWORDS_FILE.read_text(encoding="utf-8")
-    kw_map = {}
-    current_post = None
-
-    for line in text.splitlines():
-        # Match post header: ### Post #N — Title
-        post_match = re.match(r"^###\s+Post\s+#(\d+)", line)
-        if post_match:
-            current_post = int(post_match.group(1))
-            kw_map[current_post] = {
-                "green": [], "yellow": [], "supporting": [], "slug": "", "notes": ""
-            }
-            continue
-
-        if current_post is None:
-            continue
-
-        # Slug line
-        slug_match = re.match(r"\*\*Slug:\*\*\s+`(.+?)`", line)
-        if slug_match:
-            kw_map[current_post]["slug"] = slug_match.group(1)
-            continue
-
-        # Keyword table rows
-        green_match = re.match(r"^\|\s*🟢\s*Green\s*\|\s*(.+?)\s*\|", line)
-        if green_match:
-            kw_map[current_post]["green"] = [
-                k.strip() for k in green_match.group(1).split("·") if k.strip()
-            ]
-            continue
-
-        yellow_match = re.match(r"^\|\s*🟡\s*Yellow\s*\|\s*(.+?)\s*\|", line)
-        if yellow_match:
-            kw_map[current_post]["yellow"] = [
-                k.strip() for k in yellow_match.group(1).split("·") if k.strip()
-            ]
-            continue
-
-        supporting_match = re.match(r"^\|\s*⬜\s*Supporting\s*\|\s*(.+?)\s*\|", line)
-        if supporting_match:
-            kw_map[current_post]["supporting"] = [
-                k.strip() for k in supporting_match.group(1).split("·") if k.strip()
-            ]
-            continue
-
-        # Placement notes (multi-line, collect until next section)
-        if line.startswith("**Placement notes:**"):
-            kw_map[current_post]["notes"] = ""
-            continue
-
-        if current_post and kw_map[current_post]["notes"] is not None:
-            if line.startswith("- "):
-                kw_map[current_post]["notes"] += line + "\n"
-
-    return kw_map
-
-
-def _title_to_slug(title):
-    """Convert a blog title to a URL slug."""
-    slug = title.lower()
-    slug = re.sub(r"[^a-z0-9\s-]", "", slug)
-    slug = re.sub(r"\s+", "-", slug.strip())
-    slug = re.sub(r"-+", "-", slug)
-    return slug[:80]
-
-
 def init_queue():
     """Initialise queue.json from content-calendar.md. Skips already-written posts."""
-    posts = _parse_calendar()
+    posts = parse_calendar()
     all_nums = sorted(posts.keys())
     pending = [n for n in all_nums if n not in ALREADY_WRITTEN]
 
@@ -145,8 +42,8 @@ def save_queue(queue):
 def get_next_posts(n=3):
     """Return next n PostSpec dicts, selecting randomly across pillars for variety."""
     queue = load_queue()
-    calendar = _parse_calendar()
-    kw_map = _parse_keywords()
+    calendar = parse_calendar()
+    kw_map = parse_keywords()
 
     # Group pending post numbers by pillar (preserve order within each pillar)
     by_pillar: dict[str, list[int]] = {}
@@ -217,16 +114,4 @@ def status():
 
 def get_post_spec(post_num):
     """Get a single post spec by number."""
-    calendar = _parse_calendar()
-    kw_map = _parse_keywords()
-    if post_num not in calendar:
-        raise ValueError(f"Post #{post_num} not found in content-calendar.md")
-    spec = dict(calendar[post_num])
-    kw = kw_map.get(post_num, {})
-    spec["green_keywords"] = kw.get("green", [])
-    spec["yellow_keywords"] = kw.get("yellow", [])
-    spec["supporting_keywords"] = kw.get("supporting", [])
-    spec["placement_notes"] = kw.get("notes", "")
-    if kw.get("slug"):
-        spec["slug"] = kw["slug"]
-    return spec
+    return _shared_get_post_spec(post_num)

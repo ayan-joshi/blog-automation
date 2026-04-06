@@ -1,4 +1,4 @@
-groq
+anthropic
 requests
 python-dotenv
 apscheduler

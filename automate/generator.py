@@ -1,13 +1,13 @@
 """
 generator.py
-Uses Groq (Llama 3.3 70B) to generate full Shopify-ready blog HTML.
+Uses Claude (claude-haiku-4-5) to generate full Shopify-ready blog HTML.
 Extracts meta description + FAQ pairs from generated content.
 """
 
 import os
 import re
 from pathlib import Path
-from groq import Groq
+import anthropic
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).parent / ".env")
@@ -79,7 +79,7 @@ def _build_user_prompt(spec, research_brief, published_posts):
 
     published_list = "\n".join(
         f"- /blogs/early-learning-sensory-development/{h} | {t}"
-        for h, t in published_posts[:10]
+        for h, t in published_posts[:30]
     ) or "No published posts yet — omit the Related reads section."
 
     green = ", ".join(spec.get("green_keywords", [])) or "none specified"
@@ -304,22 +304,22 @@ def generate_blog(spec, research_brief, published_posts):
     Generate full blog HTML using Groq.
     Returns dict: {html, meta_description, faqs, slug, product_mode, output_dir}
     """
-    client = Groq(api_key=os.environ["GROQ_API_KEY"])
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 
     product_mode = _product_mode(spec)
     user_prompt = _build_user_prompt(spec, research_brief, published_posts)
 
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        system=SYSTEM_PROMPT,
         messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
         ],
-        temperature=0.7,
+        temperature=1,
         max_tokens=6000,
     )
 
-    html = response.choices[0].message.content.strip()
+    html = response.content[0].text.strip()
 
     # Strip any accidental markdown code fences
     html = re.sub(r'^```html?\s*', '', html, flags=re.MULTILINE)

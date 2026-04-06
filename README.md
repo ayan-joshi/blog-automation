@@ -6,6 +6,36 @@
 
 ---
 
+## Automation Workflows
+
+### Blog workflow
+- `python automate/main.py --status`
+- `python automate/main.py --dry-run`
+- `python automate/main.py --post N`
+
+### Community workflow (Quora + Reddit)
+This repo now supports a manual-post community workflow built around weekly search packs.
+
+Phase 1 behavior:
+- builds weekly Quora and Reddit search queries from existing blog topics
+- creates starter answer drafts for each platform
+- exports CSV files that open cleanly in Google Sheets
+- keeps posting manual (no autoposting)
+
+Commands:
+- `python automate/community_main.py --init-queue`
+- `python automate/community_main.py discover --week 1 --per-platform 2`
+- `python automate/community_main.py draft --week 1 --limit 2`
+- `python automate/community_main.py export --week 1`
+- `python automate/community_main.py status --week 1`
+
+Outputs:
+- queue state: `automate/community_queue.json`
+- prompt rules: `automate/prompts/community_system.txt`
+- CSV exports: `community_exports/week-N-quora-reddit.csv`
+
+---
+
 ## Folder Structure
 
 ```
