@@ -28,11 +28,26 @@ INDIA_TERMS = [
     "ayurvedic", "ayurveda", "rupee", "anganwadi",
 ]
 
+# First-person phrases that strongly suggest the answerer is based in India
+# Each match scores +3 (outweighs a generic "india" mention)
+INDIA_ORIGIN_PHRASES = [
+    "as an indian", "i am from india", "i'm from india", "here in india",
+    "in india we", "indian mom", "indian dad", "indian parent", "indian baby",
+    "my indian", "we in india", "living in india", "based in india",
+    "indian household", "indian family", "back in india",
+]
+
 
 def _india_score(title, snippet):
-    """Score how India-relevant a result is. Higher = more India-specific."""
+    """
+    Score how India-relevant a result is.
+    - INDIA_TERMS word match = +1 each
+    - INDIA_ORIGIN_PHRASES phrase match = +3 each (strong signal poster is from India)
+    """
     text = (title + " " + snippet).lower()
-    return sum(1 for w in INDIA_TERMS if w in text)
+    term_score = sum(1 for w in INDIA_TERMS if w in text)
+    phrase_score = sum(3 for p in INDIA_ORIGIN_PHRASES if p in text)
+    return term_score + phrase_score
 
 
 def _is_real_quora_question(url, title):
@@ -121,24 +136,30 @@ def _fetch_quora_question(query, seen_urls, max_results=15):
     Within each attempt, picks the highest India-score candidate.
     """
     india_query = f"{query} India"
-    short_query = " ".join(query.split()[:3])
+    # Fallback uses the most meaningful content words (skip question words + short words)
+    skip = {"how", "what", "why", "when", "is", "are", "can", "which", "does",
+            "do", "should", "will", "where", "the", "a", "an", "for", "in",
+            "month", "months", "year", "years", "week", "weeks", "old", "best",
+            "good", "great", "some", "many", "much", "more", "most"}
+    content_words = [w for w in query.split() if w.lower() not in skip and len(w) > 3]
+    short_query = " ".join(content_words[:3]) if content_words else query
 
+    # (query, timelimit, label)
     attempts = [
-        (india_query, "m"),   # India + recent
-        (query,       "m"),   # generic + recent
-        (india_query, None),  # India + any time
-        (query,       None),  # generic + any time
-        (short_query, None),  # shortened fallback
+        (india_query, "m",  "India+recent"),   # India query, past month
+        (query,       "m",  "recent"),          # generic, past month
+        (india_query, "y",  "India+year"),      # India query, past year
+        (query,       "y",  "year"),            # generic, past year
+        (india_query, None, "India"),           # India query, any time
+        (query,       None, "generic"),         # generic, any time
+        (short_query, None, "fallback"),        # content-word fallback
     ]
 
-    for attempt_query, timelimit in attempts:
+    for attempt_query, timelimit, label in attempts:
         results = _ddgs_quora_search(attempt_query, max_results, timelimit=timelimit)
         candidates = _collect_quora_candidates(results, attempt_query, seen_urls)
         if candidates:
             best = candidates[0]
-            label = f"recent+India" if timelimit == "m" and "India" in attempt_query else \
-                    f"recent" if timelimit == "m" else \
-                    f"India" if "India" in attempt_query else "fallback"
             print(f"    [Quora pick: {label}, india_score={best['india_score']}]")
             return best
 
